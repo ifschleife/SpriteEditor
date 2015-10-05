@@ -1,15 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <cassert>
 #include <QFileDialog>
 #include <QPainter>
 #include <QPixmap>
 
+
 namespace
 {
-    const auto kDefaultScaleFactor  = uint32_t{8};
-    const auto kDefaultSpriteSize   = QSize{64, 64};
-    const auto kMaximumScaleForGrid = uint32_t{4};
+    constexpr auto kDefaultScaleFactor  = uint32_t{8};
+    constexpr auto kDefaultSpriteSize   = QSize{64, 64};
+    constexpr auto kMaximumScaleForGrid = uint32_t{4};
 }
 
 
@@ -51,8 +53,7 @@ QPixmap MainWindow::scaleSprite(const QPixmap& sprite) const
 
 void MainWindow::drawGridOnSprite(QPixmap& sprite) const
 {
-    if (_scaleFactor < kMaximumScaleForGrid)
-        return;
+    assert(_scaleFactor >= kMaximumScaleForGrid);
 
     QPainter painter(&sprite);
     painter.setPen(QColor(0, 0, 0, 255));
