@@ -18,5 +18,10 @@ public:
     void scaleAndDrawSprite(uint32_t scaleFactor);
 
 private:
-    QPixmap _sprite;
+    void mouseReleaseEvent(QMouseEvent * ev);
+    uint32_t translateCursorPositionToSpritePixel(const QPoint& cursorPosition);
+
+private:
+    uint32_t _scaleFactor;
+    QPixmap  _sprite;
 };
