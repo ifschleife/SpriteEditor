@@ -7,7 +7,7 @@ namespace
 {
     constexpr auto kDefaultScaleFactor  = uint32_t{8};
     constexpr auto kDefaultSpriteSize   = QSize{64, 64};
-    constexpr auto kMaximumScaleForGrid = uint32_t{4};
+    constexpr auto kMinimumScaleForGrid = uint32_t{4};
     const     auto kDefaultSpriteColor  = QColor{255, 255, 255, 255};
 
     QPixmap scaleSprite(const QPixmap& sprite, uint32_t scaleFactor)
@@ -65,7 +65,7 @@ void SpriteArea::loadNewSprite(const QString& absPathToSprite)
 void SpriteArea::scaleAndDrawSprite(uint32_t scaleFactor)
 {
     auto scaledSprite = scaleSprite(_sprite, scaleFactor);
-    if (scaleFactor >= kMaximumScaleForGrid)
+    if (scaleFactor >= kMinimumScaleForGrid)
     {
         drawGridOnSprite(scaledSprite, scaleFactor);
     }
