@@ -24,4 +24,5 @@ private slots:
 
 private:
     std::unique_ptr<Ui::MainWindow> _ui;
+    QImage _sprite;
 };

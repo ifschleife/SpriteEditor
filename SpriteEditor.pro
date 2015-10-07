@@ -13,11 +13,9 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    spritearea.cpp
+        mainwindow.cpp
 
-HEADERS  += mainwindow.h \
-    spritearea.h
+HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
