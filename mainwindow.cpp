@@ -8,6 +8,7 @@
 namespace
 {
     constexpr auto kDefaultScaleFactor = uint32_t{8};
+    constexpr auto kMaximumScaleFactor = uint32_t{20};
     constexpr auto kDefaultSpriteSize  = QSize{64, 64};
 }
 
@@ -50,7 +51,7 @@ void MainWindow::on_actionOpenSprite_triggered()
             for (int y=0; y < height; ++y)
             {
                 const auto pixelColor = QRgb{_sprite.pixel(x, y)};
-                auto pixmap = QPixmap{kDefaultScaleFactor, kDefaultScaleFactor};
+                auto pixmap = QPixmap{kMaximumScaleFactor, kMaximumScaleFactor};
                 pixmap.fill(pixelColor);
 
                 auto label = new QLabel{this};
@@ -72,5 +73,12 @@ void MainWindow::on_spinnerScale_valueChanged(int scale)
     _ui->tableSprite->horizontalHeader()->setDefaultSectionSize(scale);
     _ui->tableSprite->verticalHeader()->setDefaultSectionSize(scale);
 
-    _ui->tableSprite->setMinimumSize(64*scale+2, 64*scale+2);
+    const auto spriteWidth  = int{_sprite.width()};
+    const auto spriteHeight = int{_sprite.height()};
+    constexpr auto framePadding = int{2};
+
+    const auto tableWidth  = int{spriteWidth*scale + framePadding};
+    const auto tableHeight = int{spriteHeight*scale + framePadding};
+
+    _ui->tableSprite->setMinimumSize(tableWidth, tableHeight);
 }
