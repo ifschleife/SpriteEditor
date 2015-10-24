@@ -5,11 +5,13 @@
 #include <QLabel>
 #include <QPixmap>
 
+
 namespace
 {
     constexpr auto kDefaultScaleFactor = uint32_t{8};
     constexpr auto kMaximumScaleFactor = uint32_t{20};
     constexpr auto kDefaultSpriteSize  = QSize{64, 64};
+    const auto kDefaultSpriteColor     = QColor{255, 255, 255, 255};
 }
 
 
@@ -21,7 +23,7 @@ MainWindow::MainWindow(QWidget* parent /*=0*/)
     _ui->setupUi(this);
     _ui->spinnerScale->setValue(kDefaultScaleFactor);
 
-    _sprite.fill(QColor{255, 255, 255, 255});
+    _sprite.fill(kDefaultSpriteColor);
 }
 
 MainWindow::~MainWindow()
@@ -34,9 +36,7 @@ void MainWindow::on_actionOpenSprite_triggered()
     const auto selectedFileName = QString{QFileDialog::getOpenFileName(this, "Select Sprite", "", "Images (*.png);;")};
     if (!selectedFileName.isEmpty())
     {
-        //_ui->labelSpriteArea->loadNewSprite(selectedFileName);
         _sprite.load(selectedFileName);
-        //_sprite = _sprite.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
         const auto width  = int{_sprite.width()};
         const auto height = int{_sprite.height()};
@@ -46,19 +46,18 @@ void MainWindow::on_actionOpenSprite_triggered()
         _ui->tableSprite->horizontalHeader()->setDefaultSectionSize(kDefaultScaleFactor);
         _ui->tableSprite->verticalHeader()->setDefaultSectionSize(kDefaultScaleFactor);
 
+        auto brush = QBrush{Qt::SolidPattern};
+
         for (int x=0; x < width; ++x)
         {
             for (int y=0; y < height; ++y)
             {
                 const auto pixelColor = QRgb{_sprite.pixel(x, y)};
-                auto pixmap = QPixmap{kMaximumScaleFactor, kMaximumScaleFactor};
-                pixmap.fill(pixelColor);
+                brush.setColor(pixelColor);
 
-                auto label = new QLabel{this};
-                label->setPixmap(pixmap);
-
-                _ui->tableSprite->setCellWidget(y, x, label);
-                //_ui->tableSprite->itemAt(x, y)->setBackground(QBrush{pixelColor});
+                auto widget = new QTableWidgetItem;
+                widget->setBackground(brush);
+                _ui->tableSprite->setItem(y, x, widget);
             }
         }
 
@@ -68,8 +67,6 @@ void MainWindow::on_actionOpenSprite_triggered()
 
 void MainWindow::on_spinnerScale_valueChanged(int scale)
 {
-    //const auto scaleFactor = static_cast<uint32_t>(scale);
-    //_ui->labelSpriteArea->scaleAndDrawSprite(scaleFactor);
     _ui->tableSprite->horizontalHeader()->setDefaultSectionSize(scale);
     _ui->tableSprite->verticalHeader()->setDefaultSectionSize(scale);
 
@@ -82,3 +79,4 @@ void MainWindow::on_spinnerScale_valueChanged(int scale)
 
     _ui->tableSprite->setMinimumSize(tableWidth, tableHeight);
 }
+

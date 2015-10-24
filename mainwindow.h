@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QImage>
 #include <QMainWindow>
 #include <memory>
 
@@ -26,3 +27,4 @@ private:
     std::unique_ptr<Ui::MainWindow> _ui;
     QImage _sprite;
 };
+
