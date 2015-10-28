@@ -43,6 +43,7 @@ namespace
 SpriteArea::SpriteArea(QWidget* parent)
     : QLabel(parent)
     , _scaleFactor(kDefaultScaleFactor)
+    , _sprite{}
 {
     loadNewSprite(kDefaultSpriteSize, kDefaultSpriteColor);
 }
