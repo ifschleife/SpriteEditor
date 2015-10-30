@@ -80,20 +80,9 @@ void SpriteArea::scaleAndDrawSprite(uint32_t scaleFactor)
 
 void SpriteArea::mouseMoveEvent(QMouseEvent* event)
 {
-    handleMouseDrawEvent(event);
-}
-
-void SpriteArea::mouseReleaseEvent(QMouseEvent* event)
-{
-    handleMouseDrawEvent(event);
-}
-
-void SpriteArea::handleMouseDrawEvent(QMouseEvent* event)
-{
     if (event->buttons() & Qt::LeftButton)
     {
-        const auto cursorPosition = QPoint{event->pos()};
-        translateCursorPositionToSpritePixel(cursorPosition);
+        handleMouseDrawEvent(event);
 
         event->accept();
     }
@@ -101,6 +90,26 @@ void SpriteArea::handleMouseDrawEvent(QMouseEvent* event)
     {
         event->ignore();
     }
+}
+
+void SpriteArea::mouseReleaseEvent(QMouseEvent* event)
+{
+    if (event->buttons() | Qt::LeftButton)
+    {
+        handleMouseDrawEvent(event);
+
+        event->accept();
+    }
+    else
+    {
+        event->ignore();
+    }
+}
+
+void SpriteArea::handleMouseDrawEvent(QMouseEvent* event)
+{
+    const auto cursorPosition = QPoint{event->pos()};
+    translateCursorPositionToSpritePixel(cursorPosition);
 }
 
 uint32_t SpriteArea::translateCursorPositionToSpritePixel(const QPoint& cursorPosition)
