@@ -78,12 +78,21 @@ void SpriteArea::scaleAndDrawSprite(uint32_t scaleFactor)
     _scaleFactor = scaleFactor;
 }
 
+void SpriteArea::mouseMoveEvent(QMouseEvent* event)
+{
+    handleMouseDrawEvent(event);
+}
 
 void SpriteArea::mouseReleaseEvent(QMouseEvent* event)
 {
-    if (event->type() == QEvent::MouseButtonRelease && event->button() == Qt::MouseButton::LeftButton)
+    handleMouseDrawEvent(event);
+}
+
+void SpriteArea::handleMouseDrawEvent(QMouseEvent* event)
+{
+    if (event->buttons() & Qt::LeftButton)
     {
-        const QPoint cursorPosition = event->pos();
+        const auto cursorPosition = QPoint{event->pos()};
         translateCursorPositionToSpritePixel(cursorPosition);
 
         event->accept();
@@ -98,8 +107,11 @@ uint32_t SpriteArea::translateCursorPositionToSpritePixel(const QPoint& cursorPo
 {
     qDebug() << cursorPosition.x() << ", " << cursorPosition.y();
 
-    auto x = int{std::div(cursorPosition.x(), _scaleFactor).quot};
-    auto y = int{std::div(cursorPosition.y(), _scaleFactor).quot};
+    const auto x = int{std::div(cursorPosition.x(), _scaleFactor).quot};
+    const auto y = int{std::div(cursorPosition.y(), _scaleFactor).quot};
+
+    if (x < 0 || x >= _sprite.width() || y < 0 || y >= _sprite.height())
+        return 0;
 
 //    const QPoint scaledPixelTopLeft(x*_scaleFactor, y*_scaleFactor);
 //    const QPoint scaledPixelBottomRight(scaledPixelTopLeft.x() + _scaleFactor, scaledPixelTopLeft.y() + _scaleFactor);
