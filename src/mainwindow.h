@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QImage>
 #include <QMainWindow>
 #include <memory>
 
@@ -20,11 +19,8 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_spinnerScale_valueChanged(int scale);
     void on_actionOpenSprite_triggered();
 
 private:
     std::unique_ptr<Ui::MainWindow> _ui;
-    QImage _sprite;
 };
-

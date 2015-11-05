@@ -1,10 +1,12 @@
 set(SOURCES
 	main.cpp
     mainwindow.cpp
+    spritearea.cpp
     )
 
 set(HEADERS
     mainwindow.h
+    spritearea.h
     )
 
 set(UI_FILES
