@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "spritearea.h"
+
 #include <QFileDialog>
+#include <QSpinBox>
 
 
 namespace
@@ -17,6 +20,9 @@ MainWindow::MainWindow(QWidget* parent /*=0*/)
     _ui->setupUi(this);
 
     _ui->spinnerScale->setValue(kDefaultScaleFactor);
+
+    connect(_ui->spinnerScale, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+            _ui->labelSpriteArea, &SpriteArea::scaleAndDrawSprite);
 }
 
 MainWindow::~MainWindow()
@@ -34,8 +40,3 @@ void MainWindow::on_actionOpenSprite_triggered()
     }
 }
 
-void MainWindow::on_spinnerScale_valueChanged(int scale)
-{
-    auto scaleFactor = static_cast<uint32_t>(scale);
-    _ui->labelSpriteArea->scaleAndDrawSprite(scaleFactor);
-}

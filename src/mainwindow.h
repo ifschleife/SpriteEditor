@@ -19,7 +19,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_spinnerScale_valueChanged(int scale);
     void on_actionOpenSprite_triggered();
 
 private:

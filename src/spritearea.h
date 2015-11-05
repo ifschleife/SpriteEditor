@@ -15,6 +15,7 @@ public:
     void loadNewSprite(const QSize& size, const QColor& fillColor);
     void loadNewSprite(const QString& absPathToSprite);
 
+public slots:
     void scaleAndDrawSprite(uint32_t scaleFactor);
 
 private:
