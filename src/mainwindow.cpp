@@ -10,6 +10,17 @@
 namespace
 {
     constexpr auto kDefaultScaleFactor  = uint32_t{14};
+
+    // template for overloaded function selection, courtesy of
+    // http://stackoverflow.com/a/16795664/578536
+    template<typename... Args> struct SELECT
+    {
+        template<typename C, typename R>
+        static constexpr auto OVERLOAD_OF( R (C::*pmf)(Args...) ) -> decltype(pmf)
+        {
+            return pmf;
+        }
+    };
 }
 
 
@@ -21,7 +32,7 @@ MainWindow::MainWindow(QWidget* parent /*=0*/)
 
     _ui->spinnerScale->setValue(kDefaultScaleFactor);
 
-    connect(_ui->spinnerScale, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(_ui->spinnerScale, SELECT<int>::OVERLOAD_OF(&QSpinBox::valueChanged),
             _ui->labelSpriteArea, &SpriteArea::scaleAndDrawSprite);
 }
 
