@@ -6,7 +6,7 @@
 
 namespace
 {
-    constexpr auto kDefaultScaleFactor  = uint32_t{8};
+    constexpr auto kDefaultScaleFactor  = uint32_t{14};
 }
 
 

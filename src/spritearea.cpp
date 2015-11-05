@@ -7,7 +7,7 @@
 
 namespace
 {
-    constexpr auto kDefaultScaleFactor  = uint32_t{8};
+    constexpr auto kDefaultScaleFactor  = uint32_t{14};
     constexpr auto kDefaultSpriteSize   = QSize{64, 64};
     constexpr auto kMinimumScaleForGrid = uint32_t{4};
     const     auto kDefaultSpriteColor  = QColor{255, 255, 255, 255};
